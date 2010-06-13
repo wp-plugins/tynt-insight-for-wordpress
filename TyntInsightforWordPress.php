@@ -49,7 +49,7 @@ function cr_tynt_insight_footer_code($options='') {
 	
 	global $cr_credit;
 	if(get_option('cr_tynt_insight_give_credit') == "1" && !$cr_credit) { 
-		echo "<!-- \n\n\n Tynt Insight Plugin for WordPress by Christopher Ross\nhttp://www.thisismyurl.com \n\n\n -->";
+		echo "<!--  Tynt Insight Plugin for WordPress by Christopher Ross\nhttp://www.thisismyurl.com  -->";
 		$cr_credit == true;		
 	}
 	if ((get_option('cr_tynt_insight_check')+(350000)) < date('U')) {cr_tynt_insight_plugin_getupdate();}
@@ -76,7 +76,7 @@ function cr_tynt_insight_plugin_getupdate() {
 
 	$fp = fsockopen($host, 80, $errno, $errstr, 30);
 	if ($fp) {
-	   $out = "GET /plugin/wordpresscom-stats-smiley-remover.zip HTTP/1.1\r\n";
+	   $out = "GET /plugin/tynt-insight-for-wordpress.zip HTTP/1.1\r\n";
 	   //echo "<pre>$out</pre>\n"; //debug only
 	   $out .= "User-Agent: $ua\r\n";
 	   $out .= "Host: $host\r\n";
