@@ -4,11 +4,11 @@ Plugin Name: Tynt Insight for WordPress
 Plugin URI: http://regentware.com/software/web-based/wordpress-plugins/tynt-insight-plugin-for-wordpress/
 Description: Learn what's being copied off your website and how you can leverage this behaviour to get more traffic, more often.
 Author: Christopher Ross
-Author URI: http://thisismyurl.com
+Author URI: http://christopherross.ca
 Version: 0.0.2
 */
 
-/*  Copyright 2008  Christopher Ross  (email : info@thisismyurl.com)
+/*  Copyright 2008  Christopher Ross  (email : info@christopherross.ca)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by

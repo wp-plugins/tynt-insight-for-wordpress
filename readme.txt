@@ -1,10 +1,10 @@
 === Plugin Name ===
 Contributors: christopherross
-Plugin URI: http://regentware.com/software/web-based/wordpress-plugins/tynt-insight-plugin-for-wordpress/
-Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5731867
+Plugin URI: http://regentware.com/31/tynt-insight-for-wordpress/
+Donate link:  http://regentware.com/donate/
 Tags: copy paste, clipboard, tynt, api, copyright, content theft
 Requires at least: 2.0.0
-Tested up to: 3.0.0
+Tested up to: 3.0.1
 Stable tag: 0.0.2
 
 Learn what's being copied off your website and how you can leverage this behaviour to get more traffic, more often.
@@ -24,11 +24,11 @@ With the Tynt Insight Plugin for WordPress, you can easily add Tynt to any WordP
 To install the plugin, please upload the folder to your plugins folder and active the plugin.
 
 == Updates ==
-Updates to the plugin will be posted here, to [thisismyurl.com](http://thisismyurl.com/)
+Updates to the plugin will be posted here, to [christopherross.ca](http://christopherross.ca/)
 
 == Frequently Asked Questions ==
 
 == Donations ==
-If you would like to donate to help support future development of this tool, please visit [thisismyurl](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5731867)
+If you would like to donate to help support future development of this tool, please visit [Regent Software](http://regentware.com/donate/?5731867)
 
 == Change Log ==
