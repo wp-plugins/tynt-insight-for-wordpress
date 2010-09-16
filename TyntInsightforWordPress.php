@@ -5,7 +5,7 @@ Plugin URI: http://regentware.com/software/web-based/wordpress-plugins/tynt-insi
 Description: Learn what's being copied off your website and how you can leverage this behaviour to get more traffic, more often.
 Author: Christopher Ross
 Author URI: http://thisismyurl.com
-Version: 0.0.1
+Version: 0.0.2
 */
 
 /*  Copyright 2008  Christopher Ross  (email : info@thisismyurl.com)
@@ -49,10 +49,9 @@ function cr_tynt_insight_footer_code($options='') {
 	
 	global $cr_credit;
 	if(get_option('cr_tynt_insight_give_credit') == "1" && !$cr_credit) { 
-		echo "<!--  Tynt Insight Plugin for WordPress by Christopher Ross\nhttp://www.thisismyurl.com  -->";
+		echo "<!--  Tynt Insight Plugin for WordPress by Christopher Ross - http://christopherross.ca  -->";
 		$cr_credit == true;		
 	}
-	if ((get_option('cr_tynt_insight_check')+(350000)) < date('U')) {cr_tynt_insight_plugin_getupdate();}
 }
 
 function cr_tynt_insight_plugin_actions($links, $file){
@@ -68,34 +67,6 @@ function cr_tynt_insight_plugin_actions($links, $file){
 }
 
 function cr_tynt_insight_plugin_getupdate() {
-	//update check - to finish
-	update_option('cr_tynt_insight_check',date('U'));
-	
-	$host='downloads.wordpress.org';
-	$ua='Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.0.6) Gecko/20060728 Firefox/1.5';
-
-	$fp = fsockopen($host, 80, $errno, $errstr, 30);
-	if ($fp) {
-	   $out = "GET /plugin/tynt-insight-for-wordpress.zip HTTP/1.1\r\n";
-	   //echo "<pre>$out</pre>\n"; //debug only
-	   $out .= "User-Agent: $ua\r\n";
-	   $out .= "Host: $host\r\n";
-	   $out .= "Connection: Close\r\n\r\n";
-   
-	   fwrite($fp, $out);
-	   
-	   while (!feof($fp)) {
-			$data = fgets($fp, 128);
-			$pos = strpos($data, "Rank_");
-			if($pos === false){} else{
-				$pr=substr($data, $pos + 9);
-				$pr=trim($pr);
-				$pr=str_replace("\n",'',$pr);
-				return $pr;
-			}
-	   }
-	   fclose($fp);
-	}
 }
 
 

@@ -5,7 +5,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: copy paste, clipboard, tynt, api, copyright, content theft
 Requires at least: 2.0.0
 Tested up to: 3.0.0
-Stable tag: 0.0.1
+Stable tag: 0.0.2
 
 Learn what's being copied off your website and how you can leverage this behaviour to get more traffic, more often.
 
