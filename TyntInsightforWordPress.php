@@ -1,14 +1,14 @@
 <?php
 /*
 Plugin Name: Tynt Insight for WordPress
-Plugin URI: http://regentware.com/software/web-based/wordpress-plugins/tynt-insight-plugin-for-wordpress/
+Plugin URI: http://thisismyurl.com/downloads/wordpress/plugins/tynt-insight-for-wordpress/
 Description: Learn what's being copied off your website and how you can leverage this behaviour to get more traffic, more often.
 Author: Christopher Ross
-Author URI: http://christopherross.ca
-Version: 0.0.2
+Author URI: http://thisismyurl.com
+Version: 1.0.0
 */
 
-/*  Copyright 2008  Christopher Ross  (email : info@christopherross.ca)
+/*  Copyright 2011 Christopher Ross  (email : info@thisismyurl.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -25,97 +25,100 @@ Version: 0.0.2
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+function thisismyurl_tynt_plugin_css() {
+	$setting = json_decode(get_option('thisismyurl_tynt'));
+	if ($setting[0]) {
+		echo stripslashes($setting[0]);
+	}
+}
+add_action('wp_head','thisismyurl_tynt_plugin_css');
 
-add_action('wp_footer', 'cr_tynt_insight_footer_code');
 
+function thisismyurl_tynt_admin_menu() {
+	$thisismyurl_tynt_settings = add_options_page( 'Tynt Insight', 'Tynt Insight', 'edit_posts', 'thisismyurl_tynt', 'thisismyurl_tynt_help_page');
+	add_action('load-'.$thisismyurl_tynt_settings, 'thisismyurl_tynt_help_page_scripts');
+}
+add_action('admin_menu', 'thisismyurl_tynt_admin_menu');
 
-add_action('admin_menu', 'cr_tynt_insight_menu');
-add_filter('plugin_action_links', 'cr_tynt_insight_plugin_actions', 10, 2);
-
-register_activation_hook(__FILE__, 'cr_tynt_insight_activate');
-
-function cr_tynt_insight_menu() {
-  add_options_page('Tynt Insight for WordPress', 'Tynt Insight for WordPress', 10,'cr_tynt_insight.php', 'cr_tynt_insight_options');
-  
+function thisismyurl_tynt_help_page_scripts() {
+	wp_enqueue_style('dashboard');
+	wp_enqueue_script('postbox');
+	wp_enqueue_script('dashboard');
 }
 
-function cr_tynt_insight_activate() {
-	if (!(get_option('cr_tynt_insight_give_credit')))	 	{update_option('cr_tynt_insight_give_credit','1');}
+function thisismyurl_tynt_admin_css() {
+	$x = WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__));
+	echo '<style type="text/css">
+			.thisismyurl{ background: url("'.$x.'icon.png") no-repeat;};
+		</style>';
 }
+add_action('admin_head','thisismyurl_tynt_admin_css');
 
-function cr_tynt_insight_footer_code($options='') {
-
-		echo "<script type='text/javascript'>tyntVariables = {'ap':'Read more: '};</script> <script type='text/javascript' src='http://tcr.tynt.com/javascripts/Tracer.js?user=".get_option('cr_tynt_user_code')."&amp;st=1'></script>";
+function thisismyurl_tynt_help_page() {
 	
-	global $cr_credit;
-	if(get_option('cr_tynt_insight_give_credit') == "1" && !$cr_credit) { 
-		echo "<!--  Tynt Insight Plugin for WordPress by Christopher Ross - http://christopherross.ca  -->";
-		$cr_credit == true;		
+	if ($_POST) {
+		$setting = array($_POST['setting1']);
+		
+		update_option('thisismyurl_tynt', json_encode($setting));	
 	}
-}
-
-function cr_tynt_insight_plugin_actions($links, $file){
-	static $this_plugin;
-
-	if( !$this_plugin ) $this_plugin = plugin_basename(__FILE__);
-
-	if( $file == $this_plugin ){
-		$settings_link = '<a href="options-general.php?page=cr_tynt_insight.php">' . __('Settings') . '</a>';
-		$links = array_merge( array($settings_link), $links); // before other links
+	
+	if (empty($setting)) {
+		$setting = json_decode(get_option('thisismyurl_tynt'));
 	}
-	return $links;
+	
+	echo '<div class="wrap">
+			<div class="thisismyurl icon32"><br /></div>
+			<h2>'.__('Settings for Tynt Insight for WordPress','thisismyurl_tynt').'</h2>
+			<div class="postbox-container" style="width:70%">
+				<form method="post" action="options-general.php?page=thisismyurl_tynt">
+	 
+				<div class="metabox-holder">
+				<div class="meta-box-sortables">
+					
+					<div id="edit-pages" class="postbox">
+					<div class="handlediv" title="'.__('Click to toggle','thisismyurl_tynt').'"><br /></div>
+					<h3 class="hndle"><span>'.__('Plugin Settings','thisismyurl_tynt').'</span></h3>
+					<div class="inside">
+						
+						<p>'.__('Tynt Insight JavaScript','thisismyurl_tynt').'<br/><textarea name="setting1" id="setting1" rows="5" cols="70">'.$setting[0].'</textarea></p>
+						
+						<h4>'.__('Get your Tynt Insight script','thisismyurl_tynt').'</h4>
+						
+						<p>'.__('Tynt Insight for WordPress requires JavaScript code from Tynt to work properly. Please log into your Tynt account any copy the JavaScript into the field above. Your JavaScript is located at','thisismyurl_tynt').' <a href="http://id.tynt.com/script/main">http://id.tynt.com/script/main</a>.</p>
+						
+					</div><!-- .inside -->
+					</div><!-- #edit-pages -->
+					<input type="hidden" name="action" value="update" /> 
+					<input type="hidden" name="page_options" value="setting1" />
+					<input type="submit" name="Submit" class="button-primary" value="'.__('Save Settings','thisismyurl_tynt').'" />
+					</form>
+				</div><!-- .meta-box-sortables -->
+				</div><!-- .metabox-holder -->
+				
+			</div><!-- .postbox-container -->
+			
+			<div class="postbox-container" style="width:20%">
+			
+				<div class="metabox-holder">
+				<div class="meta-box-sortables">
+				
+					<div id="edit-pages" class="postbox">
+					<div class="handlediv" title="'.__('Click to toggle','thisismyurl_tynt').'"><br /></div>
+					<h3 class="hndle"><span>'.__('Plugin Information','thisismyurl_tynt').'</span></h3>
+					<div class="inside">
+						<p>'.__('Tynt Insight for WordPress by Christopher Ross is a free WordPress plugin. If you\'ve enjoyed the plugin please give the plugin 5 stars on WordPress.org.','thisismyurl_tynt').'</p>
+						<p>'.__('Want to help? Please consider translating this pluginto your local language, or offering a hand in the support forums.','thisismyurl_tynt').'</p>
+						<p><a href="http://wordpress.org/extend/plugins/tynt-insight-for-wordpress/">WordPress.org</a> | <a href="http://thisismyurl.com">'.__('Plugin Author','thisismyurl_tynt').'</a></p>
+					</div><!-- .inside -->
+					</div><!-- #edit-pages -->
+				
+				</div><!-- .meta-box-sortables -->
+				</div><!-- .metabox-holder -->
+				
+			</div><!-- .postbox-container -->	
+	</div><!-- .wrap -->
+	
+	';
 }
 
-function cr_tynt_insight_plugin_getupdate() {
-}
-
-
-
-function cr_tynt_insight_options($options='') {
-?>
-    
-    <div class="wrap">
-    <h2>Tynt Insight Plugin for WordPress</h2>
-    <form method="post" action="options.php">
-    <?php wp_nonce_field('update-options'); ?>
-    
-    
-    <h3>Plugin Settings</h3>
-    <table class="form-table">
-    
-        <tr valign="top">
-        <th scope="row">Tynt Usercode</th>
-        <td>
-        <input name="cr_tynt_user_code" type="text" id="cr_tynt_user_code" value="<?php echo get_option('cr_tynt_user_code'); ?>" />
-        <?php if(strlen(get_option('cr_tynt_user_code')) > 5) {?>
-		<p><strong><a href='http://id.tynt.com/reports/overview'>View your Tynt stats online</a></strong> to see who's copied your content.</p>
-		 <?php } else { ?>
-        <p>Before Tynt Insight Plugin for WordPress can work, you'll have to sign up for an account at <a href='http://www.tynt.com/'>http://www.tynt.com/</a> and copy your user code found at <a href='http://id.tynt.com/script/account_script'>http://id.tynt.com/script/account_script</a> into the box above.</p>
-        <?php } ?> </td>
-        </tr>
-
-
-        <tr valign="top">
-        <th scope="row">Give Credit</th>
-        <td>
-        <input name="cr_tynt_insight_give_credit" type="checkbox" id="cr_tynt_insight_give_credit" value="1" <?php if(get_option('cr_tynt_insight_give_credit') == "1") {echo  "checked='checked'";} ?> />
-        <p>If you'd like to thank me for creating this plugin, please allow my plugin to place a link to my blog in the footer of your website. The link will appear in the HTML code but not on your website. </p>
-        </td>
-        </tr>
-    
-    
-    </table>
-    
-    <input type="hidden" name="action" value="update" />
-    <input type="hidden" name="page_options" value="cr_tynt_user_code,cr_tynt_insight_give_credit" />
-    
-    
-    <p class="submit">
-    <input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
-    </p>
-    </form>
-    </div>
-
-<?php
-}
 ?>
