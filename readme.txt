@@ -1,13 +1,11 @@
 === Plugin Name ===
 Contributors: christopherross
-Plugin URI: http://thisismyurl.com/31/tynt-insight-for-wordpress/
+Plugin URI: http://thisismyurl.com/plugins/tynt-insight-for-wordpress/
 Donate link:  http://thisismyurl.com/
 Tags: copy paste, clipboard, tynt, api, copyright, content theft
 Requires at least: 2.0.0
-Tested up to: 3.2
-Stable tag: 1.0.0
-
-This plugin is no longer supported by the developer.
+Tested up to: 3.5.1
+Stable tag: 1.0.1
 
 Learn what's being copied off your website and how you can leverage this behaviour to get more traffic, more often.
 
@@ -20,6 +18,8 @@ We found a wonderful website called Tynt a few weeks back and we fell in love wi
 Want to see it in action? Simply copy from this website and paste it into a new document, presto, a link appears back to the source page you copied from!
 
 With the Tynt Insight Plugin for WordPress, you can easily add Tynt to any WordPress blog or website as quickly and easily as other popular API platforms such as WP Stats or Askimet, just copy and paste the API data into your Tynt Insight Plugin for WordPress control panel and you're ready to go!
+
+This plugin is maintained by Christopher Ross, http://thisismyurl.com or you can find him on Twitter at http://twitter.com/thisismyurl/
 
 == Installation ==
 
