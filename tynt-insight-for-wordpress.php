@@ -4,7 +4,7 @@ Plugin Name: Tynt Insight for WordPress
 Plugin URI: http://thisismyurl.com/plugins/tynt-insight-for-wordpress/
 Description: Learn what's being copied off your website and how you can leverage this behaviour to get more traffic, more often.
 Author: Christopher Ross
-Author URI: http://thisismyurl.com
+Author URI: http://thisismyurl.com/
 Version: 1.0.1
 */
 
