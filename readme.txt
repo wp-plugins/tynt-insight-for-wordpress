@@ -26,7 +26,7 @@ This plugin is maintained by Christopher Ross, http://thisismyurl.com or you can
 To install the plugin, please upload the folder to your plugins folder and active the plugin.
 
 == Updates ==
-Updates to the plugin will be posted here, to [christopherross.ca](http://thisismyurl.com/)
+Updates to the plugin will be posted here, to http://thisismyurl.com/
 
 == Frequently Asked Questions ==
 
