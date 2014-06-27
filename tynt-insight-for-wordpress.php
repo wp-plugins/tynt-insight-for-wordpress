@@ -1,98 +1,198 @@
 <?php
 /*
 Plugin Name: Tynt Insight for WordPress
-Plugin URI: http://thisismyurl.com/plugins/tynt-insight-for-wordpress/
+Plugin URI: http://thisismyurl.com/downloads/tynt-insight-for-wordpress/
 Description: Learn what's being copied off your website and how you can leverage this behaviour to get more traffic, more often.
 Author: Christopher Ross
 Author URI: http://thisismyurl.com/
-Version: 1.0.1
+Version: 1.1.1.2014.06.27
 */
 
 /**
- * Category Contributors core file
+ * Tynt Insight for WordPress core file
  *
  * This file contains all the logic required for the plugin
  *
- * @link		http://wordpress.org/extend/plugins/category-contributors/
+ * @link			http://wordpress.org/extend/plugins/tynt-insight-for-wordpress/
  *
- * @package 		Category Contributors
+ * @package 		Tynt Insight for WordPress
  * @copyright		Copyright (c) 2013, Chrsitopher Ross
- * @license		http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU General Public License, v2 (or newer)
+ * @license			http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU General Public License, v2 (or newer)
  *
- * @since 		Category Contributors 1.0
+ * @since 			Tynt Insight for WordPress 1.0
  */
 
-function thisismyurl_tynt_plugin_css() {
-	$setting = json_decode( get_option( 'thisismyurl_tynt' ) );
-	if ( $setting[0] )
-		echo stripslashes($setting[0]);
+
+
+class TyntInsight {
+	
+	public function __construct() {
 		
-}
-add_action('wp_head','thisismyurl_tynt_plugin_css');
-
-
-function thisismyurl_tynt_admin_menu() {
-	$thisismyurl_tynt_settings = add_options_page( 'Tynt Insight', 'Tynt Insight', 'edit_posts', 'thisismyurl_tynt', 'thisismyurl_tynt_help_page' );
-	add_action( 'load-'.$thisismyurl_tynt_settings, 'thisismyurl_tynt_help_page_scripts' );
-}
-add_action( 'admin_menu', 'thisismyurl_tynt_admin_menu' );
-
-function thisismyurl_tynt_help_page_scripts() {
-	wp_enqueue_style( 'dashboard' );
-	wp_enqueue_script( 'postbox' );
-	wp_enqueue_script( 'dashboard' );
-}
-
-function thisismyurl_tynt_admin_css() {
-	?><style type="text/css">
-		.thisismyurl{ background: no-repeat url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAA0lBMVEX///9Jj6xrpLxJj6xrpLxhnbdJj6xxqL5moblhnbdJj6xhnbdJj6xxqL5rpLxmoblJj6xxqL5hnbdJj6x1qsBJj6xrpLxmoblJj6xrpLxJj6x4rMFJj6x1qsBJj6xxqL5Jj6x4rMF1qsBxqL5Jj6z////3+vv0+Pru9ffm7/Tf6/Hd6u/V5ezS4+rO4OjG3OW71eC509+z0Nyvztuqy9ikx9aZwNCRu82OucuMtcWCssZ/sMWAsMV4rMF1qsBrpLxmoblhnbdamrRUlrFSlLBJj6wucLoaAAAAJXRSTlMAESIiMzMzRERERFVVZmZmZnd3d4iImZmZqqq7u8zM3d3u7u7u5Bc3VAAAAehJREFUOMttU9li0zAQdAkNEEoJhXIUp4HEK1vxJeLYiQ/FuGL//5dYWb5I2SdLM56dPWRZQ7z9tj5LHevPr63ncbfN9wEDCi84lNvbC/h6m0cwiShfXU/x27PQt2muM+Qpcdl+MxH5UnKAuJRDlMQPyg89/p5w7yj/iaMHvHxn8DdnTgd5EfRTtHnREtYCvBEXQc/wYL/S+LICGPUrlg1ZgJWviPBDgBiVo2D8jkGQxE0DYBJUR/1XbjCtWQKTL62vGYin9jIAP/eNWMZaXgTpJ+sxhgIbfTzoRhsBbngpxCsLOTSIWqOKQurgQVM9YyIHf2MhAFI8nSV1L9oB8KxiaWeTTPQE/FPpIbHIo3Hu+joARgLGZo47PSlRPSfIYdShTyIdwZOdSUR/XAYWc9ab/GnKRMym69J3lsr8bt2fQBAhnOBe87s+m0Zld9ZcAajBYhvSuEYFHGftsJKpRwg7HFNIbT3uxoUa8TQQmg6vwVULvRCPGXCF8S/X4EmfgEPx0G7UzInBL6nPsaa4qsN9EM6VWcolHdonk8js1OE1p+Lm/VovlWjV696eSqgZuBwfxo2TkQQvWn9NQXS3cObTpzWzVcrGSt1UPVxdvM6FjUUSkk03TAq0F/953/N729EpHPvjbLz9C0A/pR4RVDYdAAAAAElFTkSuQmCC);};
-	</style><?php
-}
-add_action( 'admin_head', 'thisismyurl_tynt_admin_css' );
-
-function thisismyurl_tynt_help_page() {
+		add_action( 'init',  array( $this, 'setup' ) );
+		register_activation_hook( __FILE__, array( $this, 'update_old_settings' ) );
+		
+	} /* __construct() */
 	
-	if ( !empty( $_POST['setting1'] ) )
-		update_option( 'thisismyurl_tynt', json_encode( $_POST['setting1'] ) );	
-	else
-		delete_option( 'thisismyurl_tynt' );
 	
-	if ( empty($setting ) )
-		$setting = json_decode( get_option( 'thisismyurl_tynt' ) );
+	/**
+	 * setup the plugin
+	 *
+	 * @package 		Tynt Insight for WordPress
+	 * @author			Christopher Ross <info@thisismyurl.com>
+	 *
+	 * @since 			Tynt Insight for WordPress 1.1.1.2014.06.27
+	 *
+	 */
+	function setup() {
+		
+		if ( is_admin() ) {
+			 
+			/* run if this is the admin area of WordPress to register settings etc */
+			add_action( 'admin_menu', array( $this, 'admin_menu' ) );
+			add_action( 'admin_init', array( $this, 'register_settings' ) );
+		  
+		} else {
+			
+			/* run on the visitor side of WordPress */
+			add_action( 'wp_head', array( $this, 'display_tynt_js' ) );
+			
+		} /* if( is_admin() ) */
+		
+	} /* setup() */
 	
-	?><div class="wrap">
-			<div class="thisismyurl icon32"><br /></div>
-			<h2><?php _e('Settings for Tynt Insight for WordPress','thisismyurl_tynt');?></h2>
-			<div class="postbox-container" style="width:70%">
-				<form method="post" action="options-general.php?page=thisismyurl_tynt">
-	 
-				<div class="metabox-holder">
-				<div class="meta-box-sortables">
-					
-					<div id="edit-pages" class="postbox">
-					<div class="handlediv" title="'.__('Click to toggle','thisismyurl_tynt').'"><br /></div>
-					<h3 class="hndle"><span><?php _e('Plugin Settings','thisismyurl_tynt');?></span></h3>
-					<div class="inside">
-						
-						<p><?php _e('Tynt Insight JavaScript','thisismyurl_tynt');?><br/><textarea name="setting1" id="setting1" rows="5" cols="70"><?php echo $setting;?></textarea></p>
-						
-						<h4><?php _e('Get your Tynt Insight script','thisismyurl_tynt');?></h4>
-						
-						<p><?php _e('Tynt Insight for WordPress requires JavaScript code from Tynt to work properly. Please log into your Tynt account any copy the JavaScript into the field above. Your JavaScript is located at','thisismyurl_tynt');?> <a href="http://id.tynt.com/script/main">http://id.tynt.com/script/main</a>.</p>
-						
-					</div><!-- .inside -->
-					</div><!-- #edit-pages -->
-					<input type="hidden" name="action" value="update" /> 
-					<input type="hidden" name="page_options" value="setting1" />
-					<input type="submit" name="Submit" class="button-primary" value="<?php _e('Save Settings','thisismyurl_tynt');?>" />
-					</form>
-				</div><!-- .meta-box-sortables -->
-				</div><!-- .metabox-holder -->
+	
+	
+	
+	
+	/**
+	 * Register the settings we'll need
+	 *
+	 * @package 		Tynt Insight for WordPress
+	 * @author			Christopher Ross <info@thisismyurl.com>
+	 *
+	 * @since 			Tynt Insight for WordPress 1.1.1.2014.06.27
+	 *
+	 */
+	function register_settings() { 
+	  register_setting( 'main-settings', 'tynt_settings' );
+	} /* register_settings() */
+	
+	
+	
+	
+	
+	/**
+	 * Add the Tynt Insight settings page to WordPress.org admin panels
+	 *
+	 * @package 		Tynt Insight for WordPress
+	 * @author			Christopher Ross <info@thisismyurl.com>
+	 *
+	 * @since 			Tynt Insight for WordPress 1.1.0
+	 *
+	 */
+	function admin_menu() {
+		
+		$settings = add_options_page( __( 'Tynt Insight', 'tynt_insight_for_wordpress' ), 
+														__( 'Tynt Insight', 'tynt_insight_for_wordpress' ), 
+														'edit_posts', 
+														'tynt_insight_for_wordpress', 
+														array( $this, 'settings_page' ) 
+									);
+		add_action( 'load-' . $settings, 'settings_page_scripts' );
+		
+	} /* admin_menu() */
+	
+	
+	
+	
+	
+	/**
+	 * Settings page for Tynt Insight.
+	 *
+	 * @package 		Tynt Insight for WordPress
+	 * @author			Christopher Ross <info@thisismyurl.com>
+	 *
+	 * @since 			Tynt Insight for WordPress 1.1.0
+	 *
+	 */
+	function settings_page() {
+		?>
+		<div class="wrap">
+		<h2><?php _e( 'Settings for Tynt Insight for WordPress', 'tynt_insight_for_wordpress' );?></h2>
+		
+		<form method="post" action="options.php">
+		<?php settings_fields( 'main-settings' ); ?>
+		<?php do_settings_sections( 'main-settings' ); ?>
+		<label><?php _e( 'Paste your Tynt Insight script', 'tynt_insight_for_wordpress' );?></label><br />
+		<textarea name="tynt_settings" rows="10" cols="50" class="large-text code"><?php echo get_option( 'tynt_settings' ); ?></textarea>
+		<?php submit_button(); ?>
+		</form>
+		
+		<h3><?php _e( 'Get your Tynt Insight script', 'tynt_insight_for_wordpress' );?></h3>				
+		<p><?php echo sprintf( __( 'Tynt Insight for WordPress requires JavaScript code from Tynt to work properly. Please log into your Tynt account any copy the JavaScript into the field above. Your JavaScript is located at %s.', 'tynt_insight_for_wordpress' ),
+			'<a href="' . esc_url( 'http://id.tynt.com/script/main' ) . '">' . esc_url( 'http://id.tynt.com/script/main' ) . '</a>' );?></p>
 				
-			</div><!-- .postbox-container -->
-			
-			
-	</div><!-- .wrap -->
+		</div>
+		<?php
+	} /* settings_page() */
 	
-	<?php
-}
+	
+	
+	
+	
+	/**
+	 * Displays the Tynt JS in the wp_head() area of WordPress websites
+	 *
+	 * @package 		Tynt Insight for WordPress
+	 * @author			Christopher Ross <info@thisismyurl.com>
+	 *
+	 * @since 			Tynt Insight for WordPress 1.1.0
+	 *
+	 */
+	function display_tynt_js() {
+		
+		/* try to load the tynt JS from settings */
+		$tynt_setting = get_option( 'tynt_settings' );
+		
+		/* if found, display the settings */
+		if ( ! empty( $tynt_setting )  )
+			echo $tynt_setting;	
+			
+	} /* display_tynt_js() */
+	
+	
+	
+	
+	
+	/**
+	 * Check to see if the old settings need to be updated to the new format
+	 *
+	 * @package 		Tynt Insight for WordPress
+	 * @author			Christopher Ross <info@thisismyurl.com>
+	 *
+	 * @since 			Tynt Insight for WordPress 1.1.1.2014.06.27
+	 *
+	 */
+	function update_old_settings() {
+		
+		/* fetch the old settings on activation */
+		$old_tynt_settings = get_option( 'tynt_insight_for_wordpress' );
+		$new_tynt_settings = get_option( 'tynt_insight_for_wordpress' );
+		
+		/* if the settings are not empty, update the new settings */
+		if ( ! empty( $old_tynt_settings ) && empty( $new_tynt_settings ) )
+			update_option( 'tynt_settings', $old_tynt_settings );	
+		else
+			delete_option( 'tynt_insight_for_wordpress' );
+		
+	} /* update_old_settings() */
+	
+
+} /* TyntInsight */
+
+
+
+
+
+
+$TyntInsight = new TyntInsight;
