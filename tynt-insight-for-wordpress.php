@@ -5,7 +5,7 @@ Plugin URI: http://thisismyurl.com/downloads/tynt-insight-for-wordpress/
 Description: Learn what's being copied off your website and how you can leverage this behaviour to get more traffic, more often.
 Author: Christopher Ross
 Author URI: http://thisismyurl.com/
-Version: 1.1.1.2014.06.27
+Version: 1.11.14.07.08
 */
 
 /**
@@ -98,7 +98,6 @@ class TyntInsight {
 														'tynt_insight_for_wordpress', 
 														array( $this, 'settings_page' ) 
 									);
-		add_action( 'load-' . $settings, 'settings_page_scripts' );
 		
 	} /* admin_menu() */
 	

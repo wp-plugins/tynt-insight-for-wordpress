@@ -5,7 +5,7 @@ Donate link:  http://thisismyurl.com/
 Tags: copy paste, clipboard, tynt, api, copyright, content theft
 Requires at least: 2.0.0
 Tested up to: 3.9.1
-Stable tag: 1.1.1.2014.06.27
+Stable tag: 1.11.14.07.08
 
 Learn what's being copied off your website and how you can leverage this behaviour to get more traffic, more often.
 
@@ -36,6 +36,10 @@ Updates to the plugin will be posted here, to http://thisismyurl.com/
 If you would like to donate to help support future development of this tool, please visit http://thisismyurl.com/downloads/tynt-insight-for-wordpress/
 
 == Change Log ==
+
+= 1.11.14.07.08 =
+
+* removed call to old settings function
 
 = 1.1.1.2014.06.27 =
 
