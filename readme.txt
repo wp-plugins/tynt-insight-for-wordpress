@@ -1,10 +1,10 @@
-=== Plugin Name ===
+=== Tynt Insight for WordPress ===
 Contributors: christopherross,thisismyurl,mna-at-33x
 Plugin URI: http://thisismyurl.com/downloads/tynt-insight-for-wordpress/
 Donate link: http://thisismyurl.com/downloads/Tags: copy paste, clipboard, tynt, api, copyright, content theft
-Requires at least: 3.0.0
-Tested up to: 4.0.1
-Stable tag: 14.11
+Requires at least: 3.2.0
+Tested up to: 4.1.0
+Stable tag: 15.01
 
 Learn what's being copied off your website and how you can leverage this behaviour to get more traffic, more often.
 
@@ -35,6 +35,16 @@ Updates to the plugin will be posted here, to http://thisismyurl.com/
 If you would like to donate to help support future development of this tool, please visit http://thisismyurl.com/downloads/tynt-insight-for-wordpress/
 
 == Change Log ==
+
+= 15.01 =
+
+* moved CSS to child directories
+* added information page for plugin
+* tested for WordPress 4.1
+* removed icon file
+* Added OOP Class structure
+* Migrated common structure for plugins
+
 
 = 1.11.14.07.08 =
 
